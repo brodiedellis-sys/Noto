@@ -755,8 +755,7 @@ def verify_user():
 
 @app.route("/")
 def home():
-    # Add templates/index.html if you want a page; otherwise return a simple string:
-    return "Noto backend OK"
+    return render_template("index.html")
 
 def _user_country(user: "User") -> Optional[str]:
     if not user:
