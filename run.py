@@ -1,4 +1,7 @@
-run.py
+# run.py (top of file)
+import sys, os
+sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
+
 from app import app, _ping_lm
 
 if __name__ == "__main__":
