@@ -1,4 +1,4 @@
-# run.py
+run.py
 from app import app, _ping_lm
 
 if __name__ == "__main__":
