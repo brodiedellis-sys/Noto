@@ -99,7 +99,6 @@ STYLE_REFLECT  = "reflection"
 # ------------------------------------------------------------------------------
 LMSTUDIO_URL = os.getenv("LMSTUDIO_URL", "http://localhost:1234/v1/chat/completions")
 MODEL_NAME = os.getenv("MODEL_NAME", "local-model")
-ALLOWED_USERS = {u.lower() for u in ["brodie", "tanner", "aiden", "riley", "dad", "anon"]}
 LMSTUDIO_TIMEOUT = 60 if os.name == 'nt' else 30
 
 class FallbackRotator:
