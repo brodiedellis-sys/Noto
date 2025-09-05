@@ -34,6 +34,17 @@ def short_greeting_reply() -> str:
 # APP + DB INIT (uses Flask instance/ dir for DB)
 # ------------------------------------------------------------------------------
 app = Flask(__name__, instance_relative_config=True)
+import os
+
+@app.route("/_debug")
+def _debug():
+    return {
+        "file": __file__,
+        "cwd": os.getcwd(),
+        "template_folder": app.template_folder,
+        "routes": [str(r) for r in app.url_map.iter_rules()],
+    }
+
 os.makedirs(app.instance_path, exist_ok=True)  # make sure /instance exists
 
 DB_PATH = os.path.join(app.instance_path, "noto.db")
@@ -747,11 +758,12 @@ def generate_noto_response(user_text: str, user_id: int) -> Dict[str, str]:
 # ------------------------------------------------------------------------------
 @app.before_request
 def verify_user():
+    # Only used by /send; require a non-empty handle but don't restrict who can use it
     if request.endpoint == 'handle_message':
         payload = request.get_json(silent=True) or {}
-        handle = (payload.get('u') or 'anon').lower()
-        if handle not in ALLOWED_USERS:
-            abort(403, description="Not in allowlist")
+        handle = (payload.get('u') or '').strip().lower()
+        if not handle:
+            abort(400, description="Missing handle")
 
 @app.route("/")
 def home():
