@@ -11,273 +11,186 @@
       --text: #000000;
       --text-light: #ffffff;
     }
-
-    * {
-      box-sizing: border-box;
-    }
-
+    * { box-sizing: border-box; }
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background: transparent;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      margin: 0; min-height: 100vh; display: flex; flex-direction: column;
+      background: #fff;
     }
-
+    header {
+      display: flex; gap: 8px; align-items: center; padding: 12px 14px;
+      border-bottom: 1px solid #e6e6e6; flex-wrap: wrap;
+    }
+    header .title { font-weight: 600; margin-right: 8px; }
+    input[type="text"]{
+      border: 1px solid #bbb; border-radius: 8px; padding: 8px 10px; font-size: 14px;
+    }
+    button{
+      border: none; border-radius: 8px; padding: 8px 12px; font-size: 14px; cursor: pointer;
+      background: #4a6fa5; color: #fff;
+    }
+    button.secondary { background: #f2f2f2; color: #333; border: 1px solid #ddd; }
+    button:disabled { opacity: 0.6; cursor: not-allowed; }
     #chat {
-      flex: 1;
-      padding: 20px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
+      flex: 1; padding: 16px; display: flex; flex-direction: column; gap: 12px;
+      overflow-y: auto; align-items: center;
     }
-
-    .msg {
-      display: flex;
-      align-items: flex-end;
-      gap: 10px;
-      width: 100%;
-      max-width: 700px;
-      opacity: 0;
-      animation: fadeIn 0.5s ease forwards;
-    }
-
-    .msg.ai {
-      justify-content: flex-start;
-    }
-
-    .msg.user {
-      justify-content: flex-end;
-    }
-
+    .msg { display: flex; align-items: flex-end; gap: 10px; width: 100%; max-width: 720px; }
+    .msg.ai   { justify-content: flex-start; }
+    .msg.user { justify-content: flex-end; }
     .bubble {
-      padding: 12px 16px;
-      border-radius: 12px;
-      font-size: 15px;
-      line-height: 1.4;
-      position: relative;
-      max-width: 80%;
+      max-width: 80%; border-radius: 12px; padding: 12px 14px; line-height: 1.45; font-size: 15px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.06);
     }
-
-    .bubble.ai {
-      background: var(--ai);
-      color: var(--text);
+    .bubble.ai   { background: var(--ai);   color: var(--text); }
+    .bubble.user { background: var(--user); color: var(--text-light); }
+    .meta { margin-top: 6px; font-size: 12px; opacity: .65; }
+    #composer {
+      display: flex; gap: 10px; padding: 12px; border-top: 1px solid #e6e6e6;
     }
-
-    .bubble.user {
-      background: var(--user);
-      color: var(--text-light);
-    }
-
-    .icon {
-      font-size: 22px;
-      opacity: 0.8;
-    }
-
-    .timestamp {
-      font-size: 0.75em;
-      opacity: 0.6;
-      margin-top: 6px;
-      text-align: right;
-    }
-
-    .bubble.ai .timestamp {
-      color: var(--text);
-    }
-
-    .bubble.user .timestamp {
-      color: var(--text-light);
-    }
-
-    #bottom-bar {
-      display: flex;
-      padding: 12px;
-      border-top: 1px solid #ccc;
-    }
-
     #input {
-      flex: 1;
-      font-size: 16px;
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid #aaa;
-      background: white;
-      color: black;
+      flex: 1; font-size: 16px; padding: 10px; border-radius: 10px; border: 1px solid #bbb; background: #fff;
     }
-
-    #timer {
-      padding: 6px 12px;
-      font-size: 14px;
-      color: #555;
-    }
-
-    .notice-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(255, 255, 255, 0.95);
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      text-align: center;
-      padding: 40px;
-    }
-
-    .notice-overlay button {
-      margin-top: 20px;
-      font-size: 16px;
-      padding: 8px 16px;
-      background: #4a6fa5;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    .discord-button {
-      position: fixed;
-      bottom: 60px;
-      right: 20px;
-      background-color: #5865F2;
-      color: white;
-      border: none;
-      border-radius: 30px;
-      padding: 10px 16px;
-      font-size: 14px;
-      cursor: pointer;
-      z-index: 5;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    }
-
-    @keyframes fadeIn {
-      to { opacity: 1; }
-    }
-
-    @media (max-width: 600px) {
-      #chat { padding: 12px; }
-      .bubble { font-size: 14px; }
+    @media (max-width: 600px){
+      #chat{ padding: 12px; }
+      .bubble{ font-size: 14px; }
+      header{ gap: 6px; }
     }
   </style>
 </head>
 <body>
+  <header>
+    <div class="title">📝 Noto</div>
+    <input id="handle" type="text" placeholder="handle (brodie / tanner / aiden / riley / dad / anon)" />
+    <button class="secondary" id="saveHandleBtn" title="Save handle">Save</button>
+    <button id="resetBtn" title="Reset memory for this handle">Reset memory</button>
+    <span id="status" style="font-size:12px; opacity:.7; margin-left:6px;"></span>
+  </header>
+
   <div id="chat"></div>
 
-  <div id="bottom-bar">
-    <input id="input" placeholder="Say something..." autofocus />
+  <div id="composer">
+    <input id="input" type="text" placeholder="Say something…" autofocus />
+    <button id="sendBtn">Send</button>
   </div>
-
-  <div id="timer">⏳ Session ends in <span id="countdown">30:00</span></div>
-
-  <div class="notice-overlay" id="notice">
-    <div>
-      <strong>⚠️ Please don’t share personal, private, or sensitive information here.</strong>
-      <div>This is an experimental AI journal tool. For your safety, all entries are stored locally.</div>
-      <button onclick="dismissNotice()">Got it</button>
-    </div>
-  </div>
-
-  <button class="discord-button" onclick="window.open('https://discord.gg/rBT5t72E', '_blank')">
-    Join our Discord 💬
-  </button>
 
   <script>
-    const chat = document.getElementById("chat");
-    const input = document.getElementById("input");
-    const countdownEl = document.getElementById("countdown");
-    const notice = document.getElementById("notice");
-    const sessionMinutes = 30;
-    let remaining = sessionMinutes * 60;
+    const chat   = document.getElementById("chat");
+    const input  = document.getElementById("input");
+    const sendBtn = document.getElementById("sendBtn");
+    const handleEl = document.getElementById("handle");
+    const saveHandleBtn = document.getElementById("saveHandleBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const statusEl = document.getElementById("status");
 
-    function getTimestamp() {
-      return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    // --- handle persistence ---
+    handleEl.value = (localStorage.getItem("noto_handle") || "anon").toLowerCase();
+    saveHandleBtn.onclick = () => {
+      const h = (handleEl.value || "anon").trim().toLowerCase();
+      localStorage.setItem("noto_handle", h);
+      flashStatus(`Handle set to "${h}"`);
+      input.focus();
+    };
+
+    function currentHandle(){
+      return (handleEl.value || "anon").trim().toLowerCase();
     }
 
+    // --- chat UI helpers ---
     function addMessage(role, text) {
       const msg = document.createElement("div");
       msg.className = `msg ${role}`;
 
-      const icon = document.createElement("div");
-      icon.className = "icon";
-      icon.textContent = role === 'user' ? '👤' : '🤖';
-
       const bubble = document.createElement("div");
       bubble.className = `bubble ${role}`;
-      bubble.innerHTML = `${text}<div class="timestamp">${getTimestamp()}</div>`;
 
-      msg.appendChild(role === 'user' ? bubble : icon);
-      msg.appendChild(role === 'user' ? icon : bubble);
+      const content = document.createElement("div");
+      content.textContent = text;          // safe text (backend already plain text)
+      bubble.appendChild(content);
 
+      const meta = document.createElement("div");
+      meta.className = "meta";
+      meta.textContent = new Date().toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"});
+      bubble.appendChild(meta);
+
+      if (role === "user") {
+        msg.appendChild(bubble);
+      } else {
+        msg.appendChild(bubble);
+      }
       chat.appendChild(msg);
       chat.scrollTop = chat.scrollHeight;
     }
 
-    async function sendMessage() {
+    function setComposerEnabled(enabled){
+      input.disabled = !enabled;
+      sendBtn.disabled = !enabled;
+    }
+
+    function flashStatus(text){
+      statusEl.textContent = text;
+      clearTimeout(flashStatus._t);
+      flashStatus._t = setTimeout(() => statusEl.textContent = "", 2000);
+    }
+
+    // --- network actions ---
+    async function sendMessage(){
       const text = input.value.trim();
       if (!text) return;
-      input.disabled = true;
+      setComposerEnabled(false);
 
+      const u = currentHandle();
       addMessage("user", text);
       input.value = "";
 
       try {
-        const response = await fetch("/send", {
+        const res = await fetch("/send", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ text })
+          body: JSON.stringify({ u, text })
         });
-        const { reply } = await response.json();
-        addMessage("ai", reply);
-      } catch (err) {
-        addMessage("ai", "Something went wrong. Try again later.");
-      }
 
-      input.disabled = false;
-      input.focus();
+        const data = await res.json().catch(() => ({}));
+
+        if (!res.ok) {
+          if (res.status === 403) {
+            addMessage("ai", "403 Not allowed. Use one of the allowed handles (brodie, tanner, aiden, riley, dad, anon) or add yours to ALLOWED_USERS.");
+          } else {
+            addMessage("ai", `Error ${res.status}: ${data.error || "request failed"}`);
+          }
+        } else {
+          addMessage("ai", data.reply || "(no reply)");
+        }
+      } catch (e) {
+        addMessage("ai", "Network error. Is the server running?");
+      } finally {
+        setComposerEnabled(true);
+        input.focus();
+      }
     }
 
-    input.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") sendMessage();
-    });
-
-    function dismissNotice() {
-      notice.style.display = "none";
-      input.focus();
+    async function resetMemory(){
+      const u = currentHandle();
+      try {
+        const res = await fetch(`/memory/reset?u=${encodeURIComponent(u)}`, { method: "POST" });
+        if (res.ok) {
+          addMessage("ai", `Memory for "${u}" was reset.`);
+          flashStatus("Memory cleared");
+        } else {
+          addMessage("ai", "Could not reset memory.");
+        }
+      } catch {
+        addMessage("ai", "Network error while resetting memory.");
+      }
     }
 
-    window.addEventListener("keydown", () => {
-      if (notice.style.display !== "none") {
-        dismissNotice();
-      }
-    });
+    // --- wire up UI ---
+    sendBtn.onclick = sendMessage;
+    resetBtn.onclick = resetMemory;
+    input.addEventListener("keydown", e => { if (e.key === "Enter") sendMessage(); });
 
-    window.addEventListener("click", () => {
-      if (notice.style.display !== "none") {
-        dismissNotice();
-      }
-    });
-
-    addMessage("ai", "Ready when you are. What's on your mind?");
-
-    setInterval(() => {
-      if (remaining > 0) {
-        remaining--;
-        const m = String(Math.floor(remaining / 60)).padStart(2, '0');
-        const s = String(remaining % 60).padStart(2, '0');
-        countdownEl.textContent = `${m}:${s}`;
-      } else {
-        input.disabled = true;
-        countdownEl.textContent = "00:00";
-        addMessage("ai", "⏱️ Your session has ended. Please refresh to start a new chat.");
-      }
-    }, 1000);
+    // warm greeting
+    addMessage("ai", "Ready when you are. Pick a handle above and say something.");
   </script>
 </body>
 </html>
