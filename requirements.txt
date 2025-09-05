@@ -1,3 +1,5 @@
-Flask>=3.0
-Flask-SQLAlchemy>=3.1
-requests>=2.31
+Flask>=3.0,<4
+Flask-SQLAlchemy>=3.1,<4
+requests>=2.31,<3
+waitress>=3.0,<4   # optional: Windows-friendly prod server
+python-dotenv>=1.0,<2  # (optional) only if you want to load .env automatically
